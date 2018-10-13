@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = '.'
+const prefix = '#'
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -29,38 +29,7 @@ client.user.setGame(`Dream Systeam`,"http://twitch.tv/S-F")
 });
 
 
-const Discord = require('discord.js');
-const moment = require("moment");  
-const fs = require("fs");      
-const dateFormat = require('dateformat');
-const client = new Discord.Client(); 
-const Canvas = require("canvas"); //npm i canvas
-const prefix = "#"
-let profile = JSON.parse(fs.readFileSync("profile.json", "utf8"))
 
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-/* 
-الملف تقريبا يتفوق على بروبوت
-لا تنسو دي بس نسخة تجريبية للملف
-نتمنى انكم تقدرو جهدانا انتضرو الافضل 
-قريبا...
-!
-*/
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
-//////////////////////////
 
 
 client.on("message", message => {
