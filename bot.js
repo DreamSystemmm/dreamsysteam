@@ -30,109 +30,84 @@ client.user.setGame(`Dream Systeam`,"http://twitch.tv/S-F")
 
 
 
-
-
 client.on('message', message => {
-    if (message.author.bot) return;
-     if (message.content === prefix + "help") {
-      if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
-     message.channel.send('**تم ارسال رسالة في الخاص**');
+    var prefix = "+"
+  if (message.author.x5bz) return;
+  if (!message.content.startsWith(prefix)) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+  if (command == "ban") {
+               if(!message.channel.guild) return message.reply('** This command only for servers**');
+         
+  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
+  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
+  let user = message.mentions.users.first();
+  let reason = message.content.split(" ").slice(2).join(" ");
+  /*let b5bzlog = client.channels.find("name", "5bz-log");
+  if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
+  if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+  if(!reason) return message.reply ("**اكتب سبب الطرد**");
+  if (!message.guild.member(user)
+  .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
+
+  message.guild.member(user).ban(7, user);
+  
+  
+  
+  
+  
+  
+  client.on("message", message => {
+    var prefix = "+"
+    if (!message.content.startsWith(prefix)) return;
+      let command = message.content.split(" ")[0];
+      command = command.slice(prefix.length);
+        if(command === "skin") {
+                const args = message.content.split(" ").slice(1).join(" ")
+        if (!args) return message.channel.send("** Type your skin name **");
+        const image = new Discord.Attachment(`https://visage.surgeplay.com/full/256/${args}`, "skin.png");
+    message.channel.send(image)
+        }
+    });
+	
+	
+	
+	
+	
+	
+	client.on('message', message => {
+              if (!message.channel.guild) return;
+      if(message.content =='+count')
+      var SaifDz = new Discord.RichEmbed()
+      .setThumbnail(message.author.avatarURL)
+      .setFooter(message.author.username, message.author.avatarURL)
+      .setTitle('🌷| Members info')
+      .addBlankField(true)
+      .addField('عدد اعضاء السيرفر',`${message.guild.memberCount}`)
+      message.channel.send(SaifDz);
+    });
+	
+	
+	
+	
 
 
-
-
- message.author.sendMessage(`
- **
-[❖═════ General Commands ═══════❖]
-
- #id معلومات عن حسابك الشخصي
-
- #server معلومات حول السيرفر
- 
- #move سحب عضو الى رومك الصوتي
-
- #clear مسح الرسائل الموجوده في الروم بعدد
-
- #avatar يعرض اك صورتك الشخصية
- 
- #image يعرض لك صورة السيرفر
- 
- #credit يوريك كم الكريديت حقتك
-
- #daily يسوي لك سحب فلوس
-
- #rep يعطي ريب
-
- #profile معلومات عامة مع الصورة
- 
-[❖═════ Administrator Commands ═══════❖]
-
- #ban حضر عضو من السيرفر
- 
- #kick طرد عضو من السيرفر
- 
- #mute اعضاء ميوت كتابي لعضو في السيرفر
- 
- #unmute فك الميوت عن عضو في السيرفر
- 
- #dac حذف جميع رومات السيرفر
- 
- #dar حذف جميع رتب السيرفر
- 
- #openroom فتح المحادثة في الروم
- 
- #closeroom قفل المحادثة في الرةوم
-
- #role اعطاء رتبه لشخض معين
- 
- #role humans اعطاء رتب للبشريين
- 
- #role bots اعطاء رتبه للبوتات
- 
- #role all اعطاء رتبه للجميع سواء بشر او بوتات
- 
-[❖═════ Other ═══════❖]
-
- #support رابط سيرفر الدعم الفني
- 
- #invite رابط اضافة البوت
-
- **`);
-
-    }
+  const banembed = new Discord.RichEmbed()
+  .setAuthor(`BANNED!`, user.displayAvatarURL)
+  .setColor("RANDOM")
+  .setTimestamp()
+  .addField("**User:**",  '**[ ' + `${user.tag}` + ' ]**')
+  .addField("**By:**", '**[ ' + `${message.author.tag}` + ' ]**')
+  .addField("**Reason:**", '**[ ' + `${reason}` + ' ]**')
+  message.channel.send({
+    embed : banembed
+  })
+}
 });
-
-client.on("message", (message) => {
-  let men = message.mentions.users.first()
- 
-  if (message.author.bot) return;
-    if (message.author.id === client.user.id) return;
-    if(!message.channel.guild) return;
-if (message.content.startsWith(prefix + 'credit')) {
-  if(men) {
-    if (!profile[men.id]) profile[men.id] = {
-    lastDaily:'Not Collected',
-    credits: 1,
-  };
-  }
-  if(men) {
-message.channel.send(`** ${men.username}, :credit_card: balance` + " is `" + `${profile[men.id].credits}$` + "`.**")
-} else {
-  message.channel.send(`** ${message.author.username}, your :credit_card: balance` + " is `" + `${profile[message.author.id].credits}$` + "`.**")
-}
-}
- 
-if(message.content.startsWith(prefix + "daily")) {
-  if(profile[message.author.id].lastDaily != moment().format('day')) {
-    profile[message.author.id].lastDaily = moment().format('day')
-    profile[message.author.id].credits += 200
-     message.channel.send(`**${message.author.username} you collect your \`200\` :dollar: daily pounds**`)
-} else {
-    message.channel.send(`**:stopwatch: | ${message.author.username}, your daily :yen: credits refreshes ${moment().endOf('day').fromNow()}**`)
-}
-  }
-
-
 
 
 
