@@ -877,7 +877,7 @@ message.channel.stopTyping()
 })
 }
 });
-client.login("token Your Bot Here");
+
 
 
 
