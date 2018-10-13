@@ -284,6 +284,135 @@ if(message.channel.type === 'dm') return
 });
 
 
+  
+ client.on('message', message => {
+        var prefix = "+";
+        if(message.content.startsWith(prefix + 'mutevoice')) {
+          if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**ليس لديك صلاحية لاعطاء ميوت صوتي**❌ ").then(m => m.delete(5000));
+          if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I Don't Have `MUTE_MEMBERS` Permission**").then(msg => msg.delete(6000))
+           
+        if(message.mentions.users.size === 0) {
+          return message.reply("Please mention a user to mute.");
+        }
+        let muteMember = message.guild.member(message.mentions.users.first());
+        if(!muteMember) {
+          return message.reply("Try again.");
+        }
+        muteMember.setMute(true);
+        if(muteMember) {
+          message.channel.sendMessage("User muted successfully.");
+        }
+      }
+    }); 
+	
+	client.on('message', message => {
+      var prefix = "+";
+      if(message.content.startsWith(prefix + 'unmutevoice')) {
+        if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**ليس لديك صلاحية لاعطاء ميوت صوتي**❌ ").then(m => m.delete(5000));
+        if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I Don't Have `MUTE_MEMBERS` Permission**").then(msg => msg.delete(6000))
+         
+      if(message.mentions.users.size === 0) {
+        return message.reply("Please mention a user to mute.");
+      }
+      let muteMember = message.guild.member(message.mentions.users.first());
+      if(!muteMember) {
+        return message.reply("Try again.");
+      }
+      muteMember.setMute(false);
+      if(muteMember) {
+        message.channel.sendMessage("User muted successfully.");
+      }
+    }
+  });
+
+	
+	client.on('message', msg => { 
+    if (msg.content.startsWith(`+warn`)) {
+      if(!msg.member.hasPermission("MANAGE_MESSAGES")) return;
+       let args = msg.content.split(" ").slice(1);
+      if (!msg.mentions.members.first()) return msg.reply('منشن الشخص المحدد')
+      if (!args[0]) return msg.reply('اكتب السبب')
+      //غير اسم الروم او سوي روم بذا الاسم 
+      if (msg.guild.channels.find('name', 'warns')) {
+        //اذا غيرت فوق غير هنا كمان 
+        msg.guild.channels.find('name', 'warns').send(`
+      تم اعطائك انذار : ${msg.mentions.members.first()}
+      لأنك قمت بما يلي
+      ${args.join(" ").split(msg.mentions.members.first()).slice(' ')}
+      `)
+      }
+    }
+})
+
+
+client.on('message', async najzx => {
+    if(najzx.content.startsWith("+tv")) {
+      if(!najzx.member.hasPermission('MANAGE_CHANNELS')) return;
+      await najzx.channel.send("ارسل اسم الروم").then(e => {
+      let filter = m => m.author.id === najzx.author.id
+      let name = '';
+      let time = '';
+      let type = '';
+      let limit = '';
+   najzx.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+      .then(collected => {
+        name = collected.first().content
+        collected.first().delete()
+  e.edit("ارسل مدة الروم بالدقائق لااقل من 2 ولا اعلى من 180")
+  najzx.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+  .then(co => {
+  if(isNaN(co.first().content)) return najzx.reply("الوقت بالدقائق ! ارقام فقطٍ");
+  if(co.first().content > 180 || co.first().content < 2) return najzx.channel.send("لا اقل من دقيقتان ولا اكثر من 180 دقيقه")
+    time = co.first().content
+  co.first().delete()
+    e.edit("ارسل نوع الروم text, voice")
+  najzx.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+  .then(col => {
+    type = col.first().content
+  col.first().delete()
+  e.edit("ارسل عدد الاعضاء الذين يستطيعون الدخول")
+  najzx.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+  .then(coll => {
+    if(isNaN(coll.first().content)) return najzx.reply("عدد الاعضاء يكون بالارقام فقط");
+      limit = coll.first().content
+  coll.first().delete()
+  
+    e.edit("جاري اعداد الغرفه الرجاء الانتضار...")
+    najzx.guild.createChannel(name, type).then(c => {
+      c.edit({
+        userLimit: limit
+      })
+      setTimeout(() => {
+        c.delete()
+        najzx.channel.send("تم انقضاء الوقت")
+      }, Math.floor(time*60000))
+      
+    })
+    e.edit("تم انشاء الغرفه استمتع")
+  
+  })
+  })
+  })
+  })
+  })
+  
+    }
+  })
+  
+
+
+client.on('message' , message => {
+  var prefix = "+";
+  if(message.author.bot) return;
+  if(message.content.startsWith(prefix + "ping")) {
+ message.channel.send('Pong...').then((msg) => {
+      msg.edit(`\`\`\`javascript\nTime taken: ${msg.createdTimestamp - message.createdTimestamp} ms.\nDiscord API: ${Math.round(client.ping)} ms.\`\`\``);
+ })
+  }  
+ });
+ 
+ 
+
 
 
 client.login(process.env.BOT_TOKEN);
