@@ -458,31 +458,7 @@ Lion.on("message", async message => {
 
 
 
-const arraySort = require('array-sort'),
-table = require('table');
 
-client.on('message' , async (message) => {
-
-    if(message.content.startsWith(prefix + "topinvite")) {
-
-  let invites = await message.guild.fetchInvites();
-
-    invites = invites.array();
-
-    arraySort(invites, 'uses', { reverse: true });
-
-    let possibleInvites = [['الدعوات', 'الاشخاص']];
-    invites.forEach(i => {
-      possibleInvites.push([i.inviter.username , i.uses]);
-    })
-    const embed = new Discord.RichEmbed()
-    .setColor(0x7289da)
-    .setTitle("دعوات السيرفر")
-    .addField(' المتصدرين' , `${table.table(possibleInvites)}`)
-
-    message.channel.send(embed)
-    }
-});
 
 
   
@@ -634,30 +610,6 @@ client.on('guildMemberAdd', member => {
     channel.send({embed : embed});
 	    
 
-client.on('message',function(message) {
-    let messageArray = message.content.split(' ');
-    let muteRole = message.guild.roles.get('500671418707476485') || message.guild.roles.find('name', 'Muted');
-    let muteMember = message.mentions.members.first();
-    let muteReason = messageArray[2];
-    let muteDuration = messageArray[3];
-   if(message.content.startsWith(prefix + "mute")) {
-       if(!muteRole) return message.guild.createRole({name: 'Muted'}).then(message.guild.channels.forEach(chan => chan.overwritePermissions(muteRole, {SEND_MESSAGES:false,ADD_REACTIONS:false})));
-       if(!message.guild.member(message.author).hasPermission("MANAGE_ROLES")) return message.channel.send('ℹ **Error:** ``خصائص مفقودة``');
-       if(!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send('ℹ **Error:** ``خصائص مفقودة مني``');
-       if(!muteMember) return message.channel.send('ℹ **Error:** ``منشن شخص``');
-       if(!muteReason) return message.channel.send('ℹ **Error:** ``حدد سباّ``');
-       if(!muteDuration) return message.channel.send('ℹ **Error:** ``حدد وقت زمني``');
-       if(!muteDuration.match(/[1-7][s,m,h,d,w]/g)) return message.channel.send('ℹ **Error:** ``حدد وقت زمني صحيح``');
-       message.channel.send(`:white_check_mark: **تم اعطاء العضو ميوت : ${muteMember}**`);
-       muteMember.addRole(muteRole);
-       muteMember.setMute(true)
-       .then(() => { setTimeout(() => {
-           muteMember.removeRole(muteRole)
-           muteMember.setMute(false)
-       }, mmss(muteDuration));
-       });
-   } 
-});
 
 
 
