@@ -649,9 +649,6 @@ client.on("message", msg => {
 
 
 
-const arraySort = require(''),
-table = require('table');
-
 client.on('message' , async (message) => {
 
     if(message.content.startsWith(prefix + "topinvite")) {
