@@ -812,6 +812,11 @@ client.on('message', message => {
 
 
 
+
+
+
+
+
 client.on("message", (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -880,6 +885,10 @@ if (message.content.toLowerCase().startsWith(prefix + `close`)) {
 }
 
 });
+
+
+
+
 
 
 
