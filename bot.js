@@ -812,43 +812,38 @@ client.on('message', message => {
 
 
 
-client.on('message', message => {
-    let log = message.client.channels.find('id', '503093656664801281')
-    let reason = message.content.split(" ").slice(2).join(' ');
-    let p = message.mentions.members.first();
-    if (message.author.bot) return;
-    if(!message.channel.guild) return;
-    if(message.content.startsWith(prefix + "mute")){
-        
-        if (!message.member.roles.find('name', 'Muted')) return message.reply('**هذا الأمر مخصص للادارة فقط !**').then(message => message.delete(3000));
-        if(!p) return message.reply(`**ضع منشن للشخص المراد اسكاته**`).then(message => message.delete(3000));
-        if(reason.length < 1) return message.reply(`**ضع صورة تثبت صحة الاسكات**`).then(message => message.delete(3000));
-        if(!reason.includes("prntscr")) return message.reply(`**يجب ان يكون السبب صورة**`).then(message => message.delete(3000));
-        if(p.roles.find('name', 'Muted')) return message.reply('**تم اسكات هذا العضو بالفعل**').then(message => message.delete(3000));
-            
-        p.addRole(message.guild.roles.find("name", "Muted")).then (message.reply('**Done.**'));
-        
-        let embed = new Discord.RichEmbed()
-        .setTitle(`New Mute!`)
-        .addField(`For`, `<@${p.user.id}>`)
-        .addField(`By`, `<@${message.author.id}>`)
-        .addField(`Reason`, reason)
-        .addField(`In Chat`, `<#${message.channel.id}>`)
-        .setColor("#161414")
-        .setTimestamp()
-        .setFooter(" ")
-        
-        message.delete();
-        
-        log.send({embed})
+
+client.on("message", message => {
+        if(!message.channel.guild) return;
+    if(message.content.startsWith(prefix + "syana")) {
+        if(!message.member.hasPermission("ADMINISTRATOR")) return;
+        let mutedc = message.guild.roles.find(n => n.name === 'Muted');
+            message.guild.channels.forEach(codes => {
+                codes.overwritePermissions(message.guild.id, {
+                    SEND_MESSAGES: false,
+                    READ_MESSAGES: false
+                });
+                codes.overwritePermissions(mutedc.id, {
+                    READ_MESSAGES: false
+                });                         
+            });
     }
 });
 
 
 
-
-
-
+client.on("message", message => {
+    if(message.content.startsWith(prefix + "members")) {
+        let embed = new Discord.RichEmbed()
+            .setTitle("Members Status. 🥀")
+            .addField("🙂 Online", `  ${message.guild.members.filter(a => a.presence.status === "online").size}\n`, true)
+            .addField("😴 Offline", `  ${message.guild.members.filter(a => a.presence.status === 'offline').size}\n`, true)
+            .addField("🤒 DND", `  ${message.guild.members.filter(a => a.presence.status === 'dnd').size}\n`, true)
+            .addField("🙄 Idle", `  ${message.guild.members.filter(a => a.presence.status === 'idle').size}\n`, true)
+            .setColor("RANDOM");
+                        message.channel.sendEmbed(embed);
+    }
+});
 
 
 
