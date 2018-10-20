@@ -863,4 +863,31 @@ client.on('message', message => {
 
 
 
+
+
+client.on('message', msg => {
+ if (msg.content.startsWith(prefix + 'calculate')) {
+    let args = msg.content.split(" ").slice(1);
+        const question = args.join(' ');
+    if (args.length < 1) {
+        msg.reply('Specify a equation, please.');
+} else {    let answer;
+    try {
+        answer = math.eval(question);
+    } catch (err) {
+        msg.reply(`Error: ${err}`);
+    }
+    
+    const embed = new Discord.RichEmbed()
+    .addField("**Input**: ",`**${question}**`, true)
+    .addField("**Output**: ",`**${answer}**`, true)
+    msg.channel.send(embed)
+    }
+};
+});
+
+
+
+
+
 client.login(process.env.BOT_TOKEN);
