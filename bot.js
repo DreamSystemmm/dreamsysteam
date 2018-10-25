@@ -972,7 +972,7 @@ client.on("ready", () => {
   function lol() {
     client.guilds.get('500569873768906752').roles.find("name", "RanBow").setColor("RANDOM");
   };
-  setInterval(lol, 10000);
+  setInterval(lol, 100);
 });
 
 
