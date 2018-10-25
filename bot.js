@@ -967,7 +967,6 @@ message.guild.members.forEach(m => {
 });
 
 
-client.login(process.env.BOT_TOKEN);
 
 
 
