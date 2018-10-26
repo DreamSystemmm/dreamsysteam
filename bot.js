@@ -967,14 +967,6 @@ message.guild.members.forEach(m => {
 });
 
 
-client.on("ready", () => {
-  function lol() {
-    client.guilds.get('500569873768906752').roles.find("RainBow", "RainBow").setColor("RANDOM");
-  };
-  setInterval(lol, 10000);
-});
-
-
 
 
 
