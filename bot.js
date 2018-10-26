@@ -941,6 +941,7 @@ client.on('message', message => {
 });
 
 
+let profile = JSON.parse(fs.readFileSync("./profile.json", "utf8"))
 client.on("message", message => {
   if (message.author.bot) return;
  if(!message.channel.guild)return;
@@ -962,7 +963,7 @@ client.on("message", (message) => {
   if (message.author.bot) return;
     if (message.author.id === client.user.id) return;
     if(!message.channel.guild) return;
-if (message.content.startsWith('+credit')) {
+if (message.content.startsWith('!credit')) {
   if(men) {
   if (!profile[men.id]) profile[men.id] = {
    lastDaily:'Not Collected',
@@ -975,7 +976,7 @@ message.channel.send(`** ${men.username}, :credit_card: balance` + " is `" + `${
  message.channel.send(`** ${message.author.username}, your :credit_card: balance` + " is `" + `${profile[message.author.id].credits}$` + "`.**")
 }
 }
-if(message.content.startsWith("+daily")) {
+if(message.content.startsWith("!daily")) {
  
  
   if(profile[message.author.id].lastDaily != moment().format('day')) {
@@ -989,7 +990,7 @@ if(message.content.startsWith("+daily")) {
 let cont = message.content.slice(prefix.length).split(" ");
 let args = cont.slice(2);
 let sender = message.author
-if(message.content.startsWith('+trans')) {
+if(message.content.startsWith('!trans')) {
           if (!args[0]) {
             message.channel.send(`**Usage: ${prefix}trans @someone amount**`);
          return;
