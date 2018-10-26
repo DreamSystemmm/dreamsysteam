@@ -989,7 +989,7 @@ if(message.content.startsWith("+daily")) {
 let cont = message.content.slice(prefix.length).split(" ");
 let args = cont.slice(2);
 let sender = message.author
-if(message.content.startsWith('!trans')) {
+if(message.content.startsWith('+trans')) {
           if (!args[0]) {
             message.channel.send(`**Usage: ${prefix}trans @someone amount**`);
          return;
